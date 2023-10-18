@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const authRouter = require('../routes/auth.route');
 
 require('dotenv').config();
@@ -14,6 +15,7 @@ class Server  {
 
     middlewares() {
         this.app.use(express.json());
+        this.app.use(cors());
     }
 
     listen() {
