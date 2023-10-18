@@ -1,4 +1,6 @@
 const express = require('express');
+const authRouter = require('../routes/auth.route');
+
 require('dotenv').config();
 
 class Server  {
@@ -21,12 +23,7 @@ class Server  {
     }
 
     routes() {
-        this.app.get('/', (req, res) => {
-            res.status(200).json({
-                msg: 'obtenido con exito',
-                status: 'ok'
-            });
-        });
+        this.app.use('/auth', authRouter);
     }
 }
 
