@@ -3,6 +3,7 @@ const { createJWT } = require('../helpers/createJWT');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const jwt = require('jsonwebtoken');
+const validarJWT = require('../middlewares/validar-jwt');
 const router = express.Router();
 
 router.post('/',[
@@ -38,7 +39,21 @@ router.post('/register', [
         email,
         password,
         token: jwt,
-        status: 'ok'
+        status: 'ok',
+    });
+});
+
+router.get('/renew', validarJWT, async(req, res) => {
+    const email = req.email;
+    const password = req.password;
+
+    const newJWT = await createJWT(email, password);
+
+    res.json({
+        ok: true,
+        email,
+        password,
+        newJWT
     });
 });
 
@@ -63,5 +78,7 @@ router.post('/verify', (req, res) => {
         });
     }
 });
+
+
 
 module.exports = router;
