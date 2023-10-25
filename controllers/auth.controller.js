@@ -38,10 +38,22 @@ const userRegister = async(req, res) => {
 const userLogin = async(req, res) => {
     const {email, password} = req.body;
     try {
+
+        let user = await User.findOne({email, password});
+
+        if(!user) {
+            return res.status(401).json({
+                ok: false,
+                msg: 'Usuario no existe en la DB'
+            });
+        }
+
         const jwt =  await createJWT(email, password);
         return res.status(200).json({
-            msg: 'obtenido con exito',
-            status: 'ok',
+            ok: true,
+            name: user.name,
+            email: user.email,
+            password: user.password,
             token: jwt,
         });
     }catch(err) {

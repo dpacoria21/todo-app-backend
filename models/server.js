@@ -31,7 +31,7 @@ class Server  {
     }
 
     routes() {
-        this.app.use('/auth', authRouter);
+        this.app.use('/api/auth', authRouter);
     }
 }
 
