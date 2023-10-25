@@ -24,13 +24,14 @@ const userRegister = async(req, res) => {
 
         await user.save();
     
-        const jwt =  await createJWT(email, password);
+        const jwt =  await createJWT(name, user.id);
         return res.status(201).json({
+            ok: true,
             name,
+            uid: user.id,
             email: user.email,
             password: user.password,
             token: jwt,
-            status: 'ok',
         });
     }catch(err) {
         return res.status(500).json({
@@ -62,9 +63,10 @@ const userLogin = async(req, res) => {
             });
         }
 
-        const jwt =  await createJWT(email, password);
+        const jwt =  await createJWT(user.name, user.id);
         return res.status(200).json({
             ok: true,
+            uid: user.id,
             name: user.name,
             email: user.email,
             password: user.password,
@@ -80,15 +82,15 @@ const userLogin = async(req, res) => {
 };
 
 const userRenew = async(req, res) => {
-    const email = req.email;
-    const password = req.password;
+    const name = req.name;
+    const uid = req.uid;
 
-    const newJWT = await createJWT(email, password);
+    const newJWT = await createJWT(name, uid);
 
     return res.json({
         ok: true,
-        email,
-        password,
+        name,
+        uid,
         newJWT
     });
 };

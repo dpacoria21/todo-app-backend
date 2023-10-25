@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 
-const createJWT = (email, password) => {
+const createJWT = (name, uid) => {
     const jwtSecretKey = process.env.JWT_SECRET_KEY;
     const payload = {
-        email,
-        password
+        name,
+        uid
     };
 
     return new Promise((resolve, reject) => {
