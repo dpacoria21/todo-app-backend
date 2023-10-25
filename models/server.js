@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const authRouter = require('../routes/auth.route');
+const { dbConnection } = require('../db/config');
 
 require('dotenv').config();
 
@@ -9,6 +10,7 @@ class Server  {
         this.app = express();
         this.port = process.env.PORT;
 
+        this.connectToDB();
         this.middlewares();
         this.routes();
     }
@@ -16,6 +18,10 @@ class Server  {
     middlewares() {
         this.app.use(express.json());
         this.app.use(cors());
+    }
+
+    connectToDB() {
+        dbConnection();
     }
 
     listen() {
