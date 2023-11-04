@@ -24,13 +24,10 @@ const userRegister = async(req, res) => {
 
         await user.save();
     
-        const jwt =  await createJWT(name, user.id);
+        const jwt =  await createJWT(name, user.uid);
         return res.status(201).json({
             ok: true,
-            name,
-            uid: user.id,
-            email: user.email,
-            password: user.password,
+            user,
             token: jwt,
         });
     }catch(err) {
@@ -62,14 +59,11 @@ const userLogin = async(req, res) => {
                 msg: 'Password incorrecto'
             });
         }
-
-        const jwt =  await createJWT(user.name, user.id);
+        console.log(user);
+        const jwt =  await createJWT(user.name, user.uid);
         return res.status(200).json({
             ok: true,
-            uid: user.id,
-            name: user.name,
-            email: user.email,
-            password: user.password,
+            user,
             token: jwt,
         });
     }catch(err) {
